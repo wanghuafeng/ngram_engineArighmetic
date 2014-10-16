@@ -12,3 +12,8 @@ ngram_engineArighmetic
 	
 	(3)request sougou cloud word 
 	
+3.26keys
+	IME 26keys logical processing and relative method
+
+4.9keys
+	IME 9keys logical processing and relative method
