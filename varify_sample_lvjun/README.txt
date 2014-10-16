@@ -1,0 +1,42 @@
+一、SouGouCloudWord类
+（1）实例化时：添加标音模块的module_path参数
+	module_path='*\SVN\chocolate_ime\script\gen_update_words\gen_hot_words'
+	加载标音模块
+（2）to_unicode（sentence）
+	输入：任意编码字符串
+	输出：Unicode类型的句子
+（3）get_input_role_num（pinyin）
+	输入：拼音
+	输出：拼音对应的按键序列（数字串）
+（4）get_pinyin（sentence）
+	输入：句子
+	输出：拼音（中间有空格隔开）
+（5）form_sentence_to_role_num（sentence）
+	输入:句子
+	输出:按键序列（数字串）
+（6）request_sougou_cloud_word（role_num）
+	输入:数字串
+	输出:与该字符串相匹配的搜狗云词
+二、VarifyNgramData类
+（1）实例化时：添加标音模块的module_path参数
+	module_path='*\SVN\chocolate_ime\script\gen_update_words\gen_hot_words'
+	加载标音模块
+（2）to_unicode（sentence）
+	输入：任意编码字符串
+	输出：Unicode类型的字符串
+（3）get_pinyin_list（sentence）
+	输入:句子
+	输出:拼音数组
+（4）get_mapping_word_list（role_num）
+	输入: 按键规则（数字串）
+	输出:该按键规则所对应的汉字列表
+（5）get_code_sentence（sentence）
+	输入:句子
+	输出:prefix(不含最后一个字的字符串),word_list(最后一个字的输入规则所对应的汉字列表)
+（6）get_single_word_pinyin_list（single_word）
+	输入:单字
+	输出:该字所对应的拼音数组
+三、GenMappingWordLengh类
+（1）get_word_mapping_role_num（word）
+	输入:单字
+	输出:该单字所对应的按键序列（初始化时的fuzzy参数决定是否含有模糊音匹配）	
