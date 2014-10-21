@@ -11,19 +11,19 @@ def slicer_base(sentence, module_name='slice.basic_slicer', vocab_file=None):
     sliced_words_list = slicer.slice(sentence)
     return ' '.join(sliced_words_list).encode('gbk')
 
-def word2pinyin(sentence, vocab_file=None):
+def word2pinyin(sentence, vocab_file=None, high_freq=False):
     w2p = Word2Pinyin(vocab_file=vocab_file)
-    return w2p.word2pinyin(sentence)
+    return w2p.word2pinyin(sentence, high_freq=high_freq)
 
-def sentence2pinyin(sentence, module_name='slice.basic_slicer', vocab_file=None):
+def sentence2pinyin(sentence, module_name='slice.basic_slicer', vocab_file=None, high_freq=False):
     options_dic = {'slicerModule':module_name, 'vocab_file':vocab_file}
     sp = Sentence2Pinyin(options_dic)
-    return sp.sentence2pinyin(sentence)
+    return sp.sentence2pinyin(sentence, high_freq=high_freq)
 
-def sentence2digits(sentence, module_name='slice.basic_slicer', vocab_file=None):
+def sentence2digits(sentence, module_name='slice.basic_slicer', vocab_file=None, high_freq=False):
     options_dic = {'slicerModule':module_name, 'vocab_file':vocab_file}
     sd = Sentence2Digits(options_dic)
-    return sd.sentence2digits(sentence)
+    return sd.sentence2digits(sentence, high_freq=high_freq)
 
 # OPTION_DIC = {'-basic_slicer':slicer_base, '-basic_weight_slicer':slicer_base, '-word2pinyin':word2pinyin, '-sentence2pinyin':sentence2pinyin, '-sentence2digits':sentence2digits}
 #

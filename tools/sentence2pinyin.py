@@ -15,40 +15,50 @@ class Sentence2Pinyin:
             options['vocab_file'] = None
         self.w2p = Word2Pinyin(options['vocab_file'])
 
-    def sentence2pinyin(self, sentence):
+    def sentence2pinyin(self, sentence, high_freq=False):
         """
         Convert a sentence to a pinyin list
         @param:
             sentence - a Chinese sentence
         @return a list of pinyin list
         """
-        total_pinyin_list = []
+        if not high_freq:
+            total_pinyin_list = []
+            words_list = self.slicer.slice(sentence)
+            for words in words_list:
+                pinyin_list = self.w2p.word2pinyin(words)
+                if len(pinyin_list) <= 1:
+                    for splited_pinyin in pinyin_list:
+                        total_pinyin_list.append([' '.join(splited_pinyin)])
+                else:
+                    multi_pinyin_list = []
+                    for splited_pinyin in pinyin_list:
+                        multi_pinyin_list.append(' '.join(splited_pinyin))
+                    total_pinyin_list.append(multi_pinyin_list)
+            # print total_pinyin_list
+            pattern = re.compile(r"[\(\)]")
+            pinyin_path_list = ['']
+            output_pinyin_list = []
+            for pinyin_list in total_pinyin_list:
+                pinyin_path_list = itertools.product(pinyin_path_list, pinyin_list)
+            for pinyin_path in pinyin_path_list:
+                cuted_pinyin_path = ' '.join(str(pinyin_path).split(',')[1:])
+                output_pinyin_list.append([pattern.sub('', cuted_pinyin_path)])
+            return output_pinyin_list
+        else:
+            words_list = self.slicer.slice(sentence)
+            pinyin_str = ' '.join([self.w2p.get_pinyin(item) for item in words_list])
+            return pinyin_str
+    def sentence_to_matched_pinyin(self, sentence):
         words_list = self.slicer.slice(sentence)
-        # print ' '.join(words_list)
-        for words in words_list:
-            pinyin_list = self.w2p.word2pinyin(words)
-            if len(pinyin_list) <= 1:
-                for splited_pinyin in pinyin_list:
-                    total_pinyin_list.append([' '.join(splited_pinyin)])
-            else:
-                multi_pinyin_list = []
-                for splited_pinyin in pinyin_list:
-                    multi_pinyin_list.append(' '.join(splited_pinyin))
-                total_pinyin_list.append(multi_pinyin_list)
-        # print total_pinyin_list
-        pattern = re.compile(r"[\(\)]")
-        pinyin_path_list = ['']
-        output_pinyin_list = []
-        for pinyin_list in total_pinyin_list:
-            pinyin_path_list = itertools.product(pinyin_path_list, pinyin_list)
-        for pinyin_path in pinyin_path_list:
-            cuted_pinyin_path = ' '.join(str(pinyin_path).split(',')[1:])
-            output_pinyin_list.append([pattern.sub('', cuted_pinyin_path)])
-        return output_pinyin_list
+        pinyin_str = ' '.join([self.w2p.get_pinyin(item) for item in words_list])
+        return pinyin_str
 
 if __name__ == '__main__':
     options_dic = {'slicerModule':'slice.basic_slicer'}
     sp = Sentence2Pinyin(options_dic)
-    sentence = '直接写类名调用藏谁是'
+    sentence = '直接写类名调用藏谁是单'
     pinyin_list = sp.sentence2pinyin(sentence)
     print pinyin_list
+    pinyin_str = sp.sentence_to_matched_pinyin(sentence)
+    print pinyin_str
