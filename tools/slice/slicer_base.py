@@ -46,7 +46,8 @@ class SlicerBase(object):
                 temp_splited_sentence_list.append(point_complex_words)
                 new_postion = point_position
                 point_position = len(complexWords) + 1
-            if new_postion != len(complexWords) and point_position == new_postion:
+            if new_postion != len(complexWords) and point_position == new_postion + 1:
+                temp_splited_sentence_list.append(point_complex_words)
                 new_postion += 1
                 point_position = len(complexWords) + 1
         return temp_splited_sentence_list
@@ -64,7 +65,8 @@ class SlicerBase(object):
                 # print point_complex_words
                 splited_setence_list.append(point_complex_words)
                 new_position,point_posttion = -1,new_position
-            if new_position == point_posttion and point_posttion != 0:
+            if new_position + 1 == point_posttion and point_posttion != 0:
+                splited_setence_list.append(point_complex_words)
                 new_position = -1
                 point_posttion -= 1
         splited_setence_list.reverse()
@@ -91,11 +93,18 @@ class SlicerBase(object):
         return slicer_obj
 
 if __name__ == "__main__":
+    def test_cut_forward():
+        s = SlicerBase({'vocab_file':r'F:\klm\ngram\varify_sample_lvjun\pinyin_add_mudule\doc\Cizu_komoxo95K.txt'})
+        print ' '.join(s.cut_forward(u'直接写类名调用'))
+    def test_cut_backward():
+        s = SlicerBase({'vocab_file':r'F:\klm\ngram\varify_sample_lvjun\pinyin_add_mudule\doc\Cizu_komoxo95K.txt'})
+        print ' '.join(s.cut_backwords(u'直接写类名调用'))
+    # test_cut_backward()
     def test_basic_slicer_module():
         slicer = SlicerBase.fromName('basic_slicer')
         sliced_words_list = slicer.slice('直接写类名调用')
         print ' '.join(sliced_words_list)
-    test_basic_slicer_module()
+    # test_basic_slicer_module()
     def test_basic_weight_slicer():
         slicer = SlicerBase.fromName('basic_weight_slicer')
         sliced_words_list = slicer.slice('直接写类名调用')
