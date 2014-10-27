@@ -1,2 +1,2 @@
 usage: name2pinyin  full_name
-python test.py name2pinyin 北唐单类
+python test.py name2pinyin 鍖楀攼鍗曠被
